@@ -18,9 +18,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ====================================
 set(sources
 ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
+${CMAKE_CURRENT_LIST_DIR}/src/command_runner.cpp
 
 ${CMAKE_CURRENT_LIST_DIR}/src/cli/cli.cpp
-${CMAKE_CURRENT_LIST_DIR}/src/cli/run_command.cpp
 )
 
 set(include_dirs
@@ -35,10 +35,30 @@ add_executable(${EXECUTABLE} ${sources})
 include_directories(${include_dirs})
 
 # ====================================
-# Google Test
+# Add FetchContent to install libs
 # ====================================
 include(FetchContent)
 
+# ====================================
+# Boost
+# ====================================
+set(BOOST_ENABLE_CMAKE ON)
+set(BOOST_INCLUDE_LIBRARIES process)
+
+FetchContent_Declare(
+  Boost
+  URL https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.xz
+  URL_MD5 893b5203b862eb9bbd08553e24ff146a
+  DOWNLOAD_NO_EXTRACT FALSE
+)
+
+FetchContent_MakeAvailable(Boost)
+
+target_link_libraries(${EXECUTABLE} PRIVATE Boost::process)
+
+# ====================================
+# Google Test
+# ====================================
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git

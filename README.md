@@ -25,10 +25,10 @@ of three functions meant to be overridden:
 
 Likely, the show_version(...) function will never really need to be overridden.
 
-### run_command(...)
-A run_command(...) function to very easily make shell calls and evaluate output.
+### CommandRunner class
+Simple class that only contains two fields for configuring the shell and shell args to make it flexible, have a function for live changing of those variables and finally a run command to run the commands.
 
-Example usage is run_command("cat ~/.bashrc") > returns a std::string with that file's content.
+Example usage is cmdRunner.run_command("cat ~/.bashrc") > returns a std::string with that file's content.
 
 ### Justfile
 A command handler file, for the app "just".
