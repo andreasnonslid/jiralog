@@ -1,7 +1,7 @@
 #include <boost/process.hpp>
 #include <sstream>
 
-#include "command_runner.h"
+#include "command_runner.hpp"
 
 CommandRunner::CommandRunner(std::string shell,
                              std::vector<std::string> shell_args)

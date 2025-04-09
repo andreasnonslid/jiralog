@@ -21,11 +21,13 @@ ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
 ${CMAKE_CURRENT_LIST_DIR}/src/command_runner.cpp
 
 ${CMAKE_CURRENT_LIST_DIR}/src/cli/cli.cpp
+${CMAKE_CURRENT_LIST_DIR}/src/http/http_client.cpp
 )
 
 set(include_dirs
 ${CMAKE_CURRENT_LIST_DIR}/inc
 ${CMAKE_CURRENT_LIST_DIR}/inc/cli
+${CMAKE_CURRENT_LIST_DIR}/inc/http
 )
 
 # ====================================
@@ -43,7 +45,7 @@ include(FetchContent)
 # Boost
 # ====================================
 set(BOOST_ENABLE_CMAKE ON)
-set(BOOST_INCLUDE_LIBRARIES process)
+set(BOOST_INCLUDE_LIBRARIES process system beast)
 
 FetchContent_Declare(
   Boost
@@ -54,7 +56,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Boost)
 
-target_link_libraries(${EXECUTABLE} PRIVATE Boost::process)
+target_link_libraries(${EXECUTABLE}
+                        PRIVATE
+                        Boost::process
+                        Boost::system
+                        Boost::beast
+)
 
 # ====================================
 # Google Test

@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "cli.h"
+#include "cli.hpp"
 
 CLI::CLI(std::string version) : version_(std::move(version)) {}
 
