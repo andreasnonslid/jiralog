@@ -45,7 +45,15 @@ include(FetchContent)
 # Boost
 # ====================================
 set(BOOST_ENABLE_CMAKE ON)
-set(BOOST_INCLUDE_LIBRARIES process system beast)
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+set(BOOST_INCLUDE_LIBRARIES
+    process
+    system
+    beast
+    asio
+)
 
 FetchContent_Declare(
   Boost
@@ -56,12 +64,26 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Boost)
 
+# Fetch OpenSSL
+FetchContent_Declare(
+  OpenSSL
+  GIT_REPOSITORY https://github.com/openssl/openssl.git
+  GIT_TAG OpenSSL_1_1_1-stable
+)
+FetchContent_MakeAvailable(OpenSSL)
+find_package(OpenSSL REQUIRED)
+
 target_link_libraries(${EXECUTABLE}
                         PRIVATE
                         Boost::process
                         Boost::system
                         Boost::beast
+                        Boost::asio
+                        OpenSSL::SSL
+                        OpenSSL::Crypto
 )
+
+target_link_libraries(${EXECUTABLE} PRIVATE ${OPENSSL_INCLUDE_DIR})
 
 # ====================================
 # Google Test
