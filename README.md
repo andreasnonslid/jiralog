@@ -1,5 +1,6 @@
 # jiralog
-An OCaml CLI to search Jira issues and log work hours.
+A minimal OCaml CLI for searching Jira issues and logging work.  It performs the
+same requests as the example `curl` commands in the Atlassian API.
 
 ## Setup
 
@@ -33,6 +34,8 @@ Run commands from the repo root:
 
 ```bash
 ./_build/default/bin/jiralog.exe search --jql "project = TIME" --fields summary
+# Pipe through `fzf` and copy the selected issue key to the clipboard
+# ./_build/default/bin/jiralog.exe search --jql "project = TIME" --fields summary | fzf | awk '{print $1}' | xclip -sel clip
 ```
 
 ### Log work
