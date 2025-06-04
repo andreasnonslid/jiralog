@@ -1,0 +1,4 @@
+(executable
+ (name main)
+ (public_name jiralog)
+ (libraries cohttp-lwt-unix yojson cmdliner base64 lwt.unix))
