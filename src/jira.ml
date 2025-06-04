@@ -21,7 +21,13 @@ let jira_request ~meth ~path ~body =
     |> fun h -> Cohttp.Header.add h "Content-Type" "application/json"
   in
   Cohttp_lwt_unix.Client.call ~headers ~body:(`String body) meth uri
-  >>= fun (_, body) -> Cohttp_lwt.Body.to_string body
+  >>= fun (resp, body) ->
+  let code = Cohttp.Response.status resp |> Cohttp.Code.code_of_status in
+  Cohttp_lwt.Body.to_string body >|= fun data ->
+  if code >= 200 && code < 300 then
+    data
+  else
+    failwith (Printf.sprintf "Jira request failed with %d" code)
 
 let search jql fields =
   let payload = `Assoc [
