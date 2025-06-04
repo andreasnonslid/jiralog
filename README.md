@@ -4,6 +4,17 @@ same requests as the example `curl` commands in the Atlassian API.
 
 ## Setup
 
+First ensure `opam` and `dune` are installed on your system. If they are not
+available, install them using your package manager or via `opam` itself:
+
+```bash
+apt-get install opam dune   # Debian/Ubuntu
+# or
+brew install opam dune      # macOS
+# or
+opam init                   # then opam install dune
+```
+
 1. Generate an API token from [Atlassian](https://id.atlassian.com/manage-profile/security/api-tokens).
 2. Set environment variables:
    - `JIRA_EMAIL` – your Jira account email.
