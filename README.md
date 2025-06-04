@@ -12,9 +12,7 @@ A small CLI tool to search issues and log work hours in Jira using Go.
 
 ## Usage
 
-```
-cd golang
-```
+Run the commands from the repository root:
 
 ### Search issues
 
@@ -33,5 +31,5 @@ go run . log -issue TIME-25 -started 2025-01-23T12:30:00Z -seconds 3600 -comment
 Run the Go tests with:
 
 ```
-cd golang && go test
+go test
 ```

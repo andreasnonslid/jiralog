@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type SearchRequest struct {
@@ -164,9 +165,9 @@ func main() {
 
 func splitComma(s string) []string {
 	var parts []string
-	for _, p := range bytes.Split([]byte(s), []byte{','}) {
-		if len(p) > 0 {
-			parts = append(parts, string(p))
+	for _, p := range strings.Split(s, ",") {
+		if trimmed := strings.TrimSpace(p); trimmed != "" {
+			parts = append(parts, trimmed)
 		}
 	}
 	return parts
