@@ -1,0 +1,3 @@
+(library
+ (name jiralog)
+ (libraries cohttp-lwt-unix yojson base64 lwt.unix))

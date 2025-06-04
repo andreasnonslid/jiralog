@@ -1,43 +1,57 @@
-# C++ Template
+# jiralog
 
-To skip the annoying part, and get to the good stuff.
+An OCaml CLI to search Jira issues and log work hours.
 
-Gives a simple CLI interface, and a helper function to perform
-command line commands from within your application
+## Setup
 
-For the best experience, install "just" and "Ninja".
+1. Generate an API token from [Atlassian](https://id.atlassian.com/manage-profile/security/api-tokens).
+2. Set environment variables:
+   - `JIRA_EMAIL` – your Jira account email.
+   - `JIRA_TOKEN` – the API token.
+   - `JIRA_HOST`  – Jira host (default `autostore.atlassian.net`).
+3. Install dependencies using `opam`:
 
-## Contains
-### CMakeLists
-Boilerplate to add a executable target and use Google Test to set up a unit test target.
+```bash
+opam install cohttp-lwt-unix yojson cmdliner base64 dune
+```
 
-### CLI class
-A class which is meant to be subclassed from.
+## Building
 
-The entrypoint which should not be overridden is run(...).
-It will parse input args and then send them to dispatch(...).
-dispatch(...) will either go into REPL mode if the app is called
-with no arguments. Otherwise, it simply passes the command to one
-of three functions meant to be overridden:
-1. handle_command(...): Should handle most commands
-2. show_help(...): Show something helpful
-3. show_version(...): Show the app version
+Use `dune` to build the executable:
 
-Likely, the show_version(...) function will never really need to be overridden.
+```bash
+dune build
+```
 
-### CommandRunner class
-Simple class that only contains two fields for configuring the shell and shell args to make it flexible, have a function for live changing of those variables and finally a run command to run the commands.
+The binary will appear at `_build/default/bin/jiralog.exe` or can be installed with
+`dune install`.
 
-Example usage is cmdRunner.run_command("cat ~/.bashrc") > returns a std::string with that file's content.
+## Usage
 
-### Justfile
-A command handler file, for the app "just".
+Run commands from the repo root:
 
-Allows you to do
+### Search issues
 
-1. just clean
-2. just build
-3. just rebuild
-4. just run <args>
+```bash
+./_build/default/bin/jiralog.exe search --jql "project = TIME" --fields summary
+```
 
-and you could of course always add more. Just a convenient tool.
+### Log work
+
+```bash
+./_build/default/bin/jiralog.exe log --issue TIME-25 --started 2025-01-23T12:30:00Z --seconds 3600 --comment "worked on stuff"
+```
+
+## Development
+
+You can run the OCaml code directly with `dune exec`:
+
+```bash
+dune exec jiralog -- search --jql "project = TIME" --fields summary
+```
+
+Run the test suite with:
+
+```bash
+dune runtest
+```
