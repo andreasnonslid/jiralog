@@ -1,0 +1,19 @@
+opam-version: "2.0"
+name: "jiralog"
+version: "0.1"
+authors: ["Andreas Havardsen"]
+license: "MIT"
+maintainer: "andreas.havardsen@autostoresystem.com"
+synopsis: "CLI for logging hours to Jira"
+depends: [
+  "ocaml" {>= "4.14"}
+  "dune" {>= "3.8"}
+  "cohttp-lwt-unix"
+  "yojson"
+  "cmdliner"
+  "lwt"
+  "base64"
+]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]
