@@ -14,10 +14,12 @@ let get_auth_header () =
 
 let jira_request ~meth ~path ~body =
   let uri = Uri.make ~scheme:"https" ~host:(jira_host ()) ~path in
-  get_auth_header () >>= fun auth ->
-  let headers = Cohttp.Header.init_with "Authorization" auth in
-  let headers = Cohttp.Header.add headers "Accept" "application/json" in
-  let headers = Cohttp.Header.add headers "Content-Type" "application/json" in
+  let auth = get_auth_header () in
+  let headers =
+    Cohttp.Header.init_with "Authorization" auth
+    |> fun h -> Cohttp.Header.add h "Accept" "application/json"
+    |> fun h -> Cohttp.Header.add h "Content-Type" "application/json"
+  in
   Cohttp_lwt_unix.Client.call ~headers ~body:(`String body) meth uri
   >>= fun (_, body) -> Cohttp_lwt.Body.to_string body
 
