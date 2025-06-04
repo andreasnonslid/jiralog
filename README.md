@@ -1,5 +1,4 @@
 # jiralog
-
 An OCaml CLI to search Jira issues and log work hours.
 
 ## Setup
